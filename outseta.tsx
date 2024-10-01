@@ -19,7 +19,7 @@ export function withRegisterPopup(Component): ComponentType {
     }
 }
 
-export function withLoginPopup(Component): ComponentType {
+export function asLoginPopupButton(Component): ComponentType {
     return (props) => {
         return (
             <Component
@@ -33,7 +33,7 @@ export function withLoginPopup(Component): ComponentType {
     }
 }
 
-export function withCombinedRegisterLoginPopup(Component): ComponentType {
+export function asCombinedRegisterLoginPopupButton(Component): ComponentType {
     return (props) => {
         return (
             <Component
@@ -47,7 +47,7 @@ export function withCombinedRegisterLoginPopup(Component): ComponentType {
     }
 }
 
-export function withProfilePopup(Component): ComponentType {
+export function asProfilePopupButton(Component): ComponentType {
     return (props) => {
         return (
             <Component
@@ -60,7 +60,7 @@ export function withProfilePopup(Component): ComponentType {
     }
 }
 
-export function withLogout(Component): ComponentType {
+export function asLogoutButton(Component): ComponentType {
     return (props) => {
         return (
             <Component
@@ -170,19 +170,19 @@ export function showForPartyPeople(Component): ComponentType {
 
 /////////////////// Text Overrides
 
-export function withFirstName(Component): ComponentType {
+export function withUserFirstName(Component): ComponentType {
     return withProperty("FirstName", Component)
 }
 
-export function withLastName(Component): ComponentType {
+export function withUserLastName(Component): ComponentType {
     return withProperty("LastName", Component)
 }
 
-export function withFullName(Component): ComponentType {
+export function withUserFullName(Component): ComponentType {
     return withProperty("FullName", Component)
 }
 
-export function withEmail(Component): ComponentType {
+export function withUserEmail(Component): ComponentType {
     return withProperty("Email", Component)
 }
 
@@ -207,36 +207,7 @@ export function withAccountSubscriptionDescription(Component): ComponentType {
 
 /////////////////// Image Overrides
 
-function withImageProperty(property: keyof User, Component: ComponentType) {
-    return (props) => {
-        const user = useUser()
-        if (!user) return null
-
-        const imageSrc = user[property]
-        log("avatar source", user[property])
-
-        if (imageSrc) {
-            return (
-                <Component
-                    {...props}
-                    background={{
-                        ...props.background,
-                        src: imageSrc,
-                        srcSet: undefined,
-                    }}
-                />
-            )
-        } else if (props.background?.src) {
-            // Component has image set, use as fallback
-            return <Component {...props} />
-        } else {
-            // Component has no image set, remove
-            return null
-        }
-    }
-}
-
-export function withAvatar(Component): ComponentType {
+export function withUserAvatar(Component): ComponentType {
     return withImageProperty("ProfileImageS3Url", Component)
 }
 
@@ -343,6 +314,35 @@ function withProperty(property: keyof User, Component: ComponentType) {
         const user = useUser()
         if (!user) return null
         return <Component {...props} text={user[property]} />
+    }
+}
+
+function withImageProperty(property: keyof User, Component: ComponentType) {
+    return (props) => {
+        const user = useUser()
+        if (!user) return null
+
+        const imageSrc = user[property]
+        log("avatar source", user[property])
+
+        if (imageSrc) {
+            return (
+                <Component
+                    {...props}
+                    background={{
+                        ...props.background,
+                        src: imageSrc,
+                        srcSet: undefined,
+                    }}
+                />
+            )
+        } else if (props.background?.src) {
+            // Component has image set, use as fallback
+            return <Component {...props} />
+        } else {
+            // Component has no image set, remove
+            return null
+        }
     }
 }
 
