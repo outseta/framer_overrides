@@ -33,20 +33,6 @@ export function asLoginPopupButton(Component): ComponentType {
     }
 }
 
-export function asCombinedRegisterLoginPopupButton(Component): ComponentType {
-    return (props) => {
-        return (
-            <Component
-                {...props}
-                data-o-anonymous="1"
-                data-o-auth="1"
-                data-mode="popup"
-                data-widget-mode="register|login"
-            />
-        )
-    }
-}
-
 export function asProfilePopupButton(Component): ComponentType {
     return (props) => {
         return (
