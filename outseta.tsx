@@ -97,6 +97,29 @@ export function showForSinglePlan_aWxYEbmV(Component): ComponentType {
     }
 }
 
+/////////// Visibility Overrides Based on Plan Uid
+/////// Instruction
+// 1. Find the plan uids on the plan page in Outseta
+// 2. Replace aWxYEbmV and BmxYEbmX below with the plan uids
+// Duplicate function for other plan uids
+export function showForMultiplePlans1(Component): ComponentType {
+    const validPlanUids = ["aWxYEbmV","BmxYEbmX"]
+
+    return (props) => {
+        try {
+            const user = useUser()
+            const value = user && user["Account.CurrentSubscription.Plan.Uid"]
+            if (validPlanUids.includes(value)) {
+                return <Component {...props} />
+            }
+            return null
+        } catch (error) {
+            log("error in showForMultiplePlans1", validPlanUids, error.message)
+            return null
+        }
+    }
+}
+
 /////////// Visibility Based on an Account Custom Property
 /////// Instruction
 // 1. Give the function as useful name
