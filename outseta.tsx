@@ -120,6 +120,26 @@ export function showForMultiplePlans1(Component): ComponentType {
     }
 }
 
+/////////// Visibility Override Based on Stripe Product Uid
+/////// Instruction
+// 1. Find the product uid on the product page in Outseta
+// 2. Replace PRODUCT_UID in the function name with the product uid
+// 3. Replace the PRODUCT_UID value of validProductUid with the product uid
+// Duplicate the function for additional product uids
+
+export function showForSingleProduct_PRODUCT_UID(Component): ComponentType {
+    const validProductUid = "PRODUCT_UID"
+
+    return (props) => {
+        return (
+            <Component
+                {...props}
+                data-o-product-content={validProductUid}
+            />
+        )
+    }
+}
+
 /////////// Visibility Based on an Account Custom Property
 /////// Instruction
 // 1. Give the function as useful name
